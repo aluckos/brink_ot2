@@ -1,0 +1,89 @@
+esphome:
+  name: brink-ot-full
+  friendly_name: Brink OT Full
+
+esp8266:
+  board: d1_mini
+
+logger:
+api:
+ota:
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+external_components:
+  - source:
+      type: local
+      path: ../components
+
+brink_ventilation:
+  id: my_brink
+  in_pin: 4
+  out_pin: 5
+  update_interval: 1500ms
+
+sensor:
+  - platform: brink_ventilation
+    type: T_SUPPLY_IN
+    name: "Temp Czerpnia (T1)"
+  - platform: brink_ventilation
+    type: T_SUPPLY_OUT
+    name: "Temp Nawiew (T2)"
+  - platform: brink_ventilation
+    type: T_EXHAUST_IN
+    name: "Temp Wywiew (T3)"
+  - platform: brink_ventilation
+    type: T_EXHAUST_OUT
+    name: "Temp Wyrzutnia (T4)"
+
+  - platform: brink_ventilation
+    type: CURRENT_FLOW
+    name: "Przepływ (TSP 52/53)"
+
+  - platform: brink_ventilation
+    type: BYPASS_STATUS
+    name: "Bypass status (0/1/2)"
+  - platform: brink_ventilation
+    type: CPID
+    name: "Ciśnienie nawiewu (CPID)"
+  - platform: brink_ventilation
+    type: CPOD
+    name: "Ciśnienie wywiewu (CPOD)"
+
+  - platform: brink_ventilation
+    type: U1
+    name: "U1 (step 1)"
+  - platform: brink_ventilation
+    type: U2
+    name: "U2 (step 2)"
+  - platform: brink_ventilation
+    type: U3
+    name: "U3 (step 3)"
+  - platform: brink_ventilation
+    type: U4
+    name: "U4 (bypass atmo threshold)"
+  - platform: brink_ventilation
+    type: U5
+    name: "U5 (bypass indoor threshold)"
+  - platform: brink_ventilation
+    type: I1
+    name: "I1 (imbalance)"
+
+number:
+  - platform: brink_ventilation
+    name: "Nastawa mocy (ID71)"
+
+binary_sensor:
+  - platform: brink_ventilation
+    type: FILTER_STATUS
+    name: "Filtr - status"
+
+text_sensor:
+  - platform: brink_ventilation
+    type: STATUS
+    name: "Status komunikacji"
+  - platform: brink_ventilation
+    type: BYPASS_STATUS_TEXT
+    name: "Bypass status (tekst)"
